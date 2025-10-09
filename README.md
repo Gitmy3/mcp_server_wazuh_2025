@@ -1,6 +1,6 @@
 # mcp_server_wazuh_2025
 We have to built a MCP Server for Wazuh SIEM. 
-# Wazuh MCP Server - Talking with SIEM
+# MCP Server - Connecting with Wazuh SIEM
 
 A Rust-based server to be designed to bridge the gap between a Wazuh Security Information and Event Management (SIEM) system and applications requiring contextual security data, specifically tailored for the Claude Desktop Integration using the Model Context Protocol (MCP).
 
