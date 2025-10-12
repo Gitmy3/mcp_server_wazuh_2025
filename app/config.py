@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from typing import List
 
 class Settings(BaseSettings):
@@ -15,4 +15,6 @@ class Settings(BaseSettings):
     DEFAULT_TZ: str = "UTC"
 
 settings = Settings()
+
+
 
