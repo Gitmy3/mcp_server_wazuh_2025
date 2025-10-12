@@ -35,6 +35,9 @@ class WazuhSearchPlan(BaseModel):
     dry_run: Optional[bool] = False
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
+
+
+        
 
         
