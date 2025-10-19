@@ -1,0 +1,78 @@
+version: "3.9"
+services:
+
+  # 1. OpenSearch (Indexer / Search backend)
+  opensearch:
+    image: opensearchproject/opensearch:2.10.0
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - mcp-net
+
+  # 2. Wazuh Manager (SIEM core)
+  wazuh-manager:
+    image: wazuh/wazuh-manager:4.6.0
+    container_name: wazuh-manager
+    environment:
+      - WAZUH_MANAGER_NAME=manager
+      - ELASTICSEARCH_URL=http://opensearch:9200
+    depends_on:
+      - opensearch
+    ports:
+      - "55000:55000"
+    networks:
+      - mcp-net
+
+  # 3. Wazuh Dashboard (Visualization & UI)
+  wazuh-dashboard:
+    image: wazuh/wazuh-dashboard:4.6.0
+    container_name: wazuh-dashboard
+    environment:
+      - WAZUH_API_URL=http://wazuh-manager:55000
+      - DASHBOARD_USERNAME=admin
+      - DASHBOARD_PASSWORD=SecretPassword
+    depends_on:
+      - opensearch
+      - wazuh-manager
+    ports:
+      - "443:5601"
+    networks:
+      - mcp-net
+
+  # 4. MCP Server (Your Python FastAPI application)
+  mcp-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mcp-server
+    env_file:
+      - ./docker/.env
+    environment:
+      - OPENSEARCH_HOST=http://opensearch:9200
+      - OPENSEARCH_USER=${OPENSEARCH_USER}
+      - OPENSEARCH_PASS=${OPENSEARCH_PASSWORD}
+    depends_on:
+      - opensearch
+      - wazuh-manager
+    ports:
+      - "8000:8000"
+    networks:
+      - mcp-net
+
+volumes:
+  opensearch_data:
+
+networks:
+  mcp-net:
+    driver: bridge
