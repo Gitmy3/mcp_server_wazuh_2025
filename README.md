@@ -1,5 +1,6 @@
 # mcp_server_wazuh_2025
 We have to built a MCP Server for Wazuh SIEM. 
+
 **Build:**
   ```bash
     git clone https://github.com/Gitmy3/mcp_server_wazuh_2025.git
