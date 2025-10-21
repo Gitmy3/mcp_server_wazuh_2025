@@ -1,5 +1,26 @@
 # mcp_server_wazuh_2025
 We have to built a MCP Server for Wazuh SIEM. 
+**Build:**
+  ```bash
+    git clone https://github.com/Gitmy3/mcp_server_wazuh_2025.git
+  ```
+**Activate the Virtual Environment:**
+  ```bash
+    /venv/Scripts/activate
+  ```
+**To Start the MCP Server:**
+  ```bash
+    uvicorn app.main:app --reload
+  ```
+**To Update the pip:**
+ ```bash
+    python -m pip install --upgrade pip
+ ```
+**To check if the MCP Server is connected with the OpenAI or not(check with Thunderclient):**
+ ```arduino
+    http://127.0.0.1:8000/query_llm/
+ ```
+
 # MCP Server - Connecting with Wazuh SIEM
 
 A Rust-based server to be designed to bridge the gap between a Wazuh Security Information and Event Management (SIEM) system and applications requiring contextual security data, specifically tailored for the Claude Desktop Integration using the Model Context Protocol (MCP).
