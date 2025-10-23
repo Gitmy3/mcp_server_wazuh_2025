@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     WAZUH_VERIFY_SSL: bool = False
 
     # 🧠 Add OpenAI key
-    OPENAI_API_KEY: str  = "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"
+    OPENAI_API_KEY: str  = "sk-proj-"
     
 
     class Config:
@@ -33,6 +33,9 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
+
+
+
 
 
 
